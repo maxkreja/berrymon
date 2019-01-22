@@ -1,0 +1,382 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>berrymon.i2c &#8212; Berrymon 1.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Berrymon</a></h1>
+
+
+
+<p class="blurb">A complete monitoring solution for your Raspberry Pi.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=maxkreja&repo=faynder_finder&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../software.html">Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hardware.html">Hardware Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for berrymon.i2c</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">I²C Module</span>
+<span class="sd">==========</span>
+
+<span class="sd">This module contains definitions for managing</span>
+<span class="sd">and controlling I²C devices.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">smbus2</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<div class="viewcode-block" id="I2CDevice"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDevice">[docs]</a><span class="k">class</span> <span class="nc">I2CDevice</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents an I²C device and implements it&#39;s </span>
+<span class="sd">    bare-metal functions like reading and writing bytes from </span>
+<span class="sd">    and to the device.</span>
+
+<span class="sd">    The sleep at the end of every write method is necessary</span>
+<span class="sd">    because of the clock speed of 100kHz every standard I²C</span>
+<span class="sd">    device uses. By sleeping 0.0001 seconds after each write</span>
+<span class="sd">    we make sure that we are not sending two bytes in one</span>
+<span class="sd">    clock cycle.</span>
+
+<span class="sd">    :ivar int addr: The address of the device on it&#39;s bus.</span>
+<span class="sd">    :ivar int bus: The number of the bus the device is connected to.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bus</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bus</span> <span class="o">=</span> <span class="n">smbus2</span><span class="o">.</span><span class="n">SMBus</span><span class="p">(</span><span class="n">bus</span><span class="p">)</span>
+
+<div class="viewcode-block" id="I2CDevice.write_byte"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDevice.write_byte">[docs]</a>    <span class="k">def</span> <span class="nf">write_byte</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byte</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a byte to the device.</span>
+
+<span class="sd">        :param int byte: The byte to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">byte</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDevice.write_byte_register"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDevice.write_byte_register">[docs]</a>    <span class="k">def</span> <span class="nf">write_byte_register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">byte</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a byte to a specific register.</span>
+
+<span class="sd">        :param int register: The address of the register to write to.</span>
+<span class="sd">        :param int byte: The byte to write to the register.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">write_byte_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">register</span><span class="p">,</span> <span class="n">byte</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDevice.write_block_register"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDevice.write_block_register">[docs]</a>    <span class="k">def</span> <span class="nf">write_block_register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a block of bytes to a specific register.</span>
+
+<span class="sd">        :param int register: The address of the register to write to.</span>
+<span class="sd">        :param int block: The block of bytes to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">write_i2c_block_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">register</span><span class="p">,</span> <span class="n">block</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDevice.read_byte"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDevice.read_byte">[docs]</a>    <span class="k">def</span> <span class="nf">read_byte</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads a single byte from the device.</span>
+
+<span class="sd">        :returns: The read byte.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">read_byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDevice.read_byte_register"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDevice.read_byte_register">[docs]</a>    <span class="k">def</span> <span class="nf">read_byte_register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads a single byte from a specific register.</span>
+
+<span class="sd">        :param int register: The address of the register to read from.</span>
+
+<span class="sd">        :returns: The read byte.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">read_byte_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">register</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDevice.read_block_register"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDevice.read_block_register">[docs]</a>    <span class="k">def</span> <span class="nf">read_block_register</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">register</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads a block of bytes from a specific register.</span>
+
+<span class="sd">        :param int register: The address of the register to read from.</span>
+<span class="sd">        :param int length: The length of the block to read.</span>
+
+<span class="sd">        :returns: The read block of bytes.</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">read_i2c_block_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">addr</span><span class="p">,</span> <span class="n">register</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="I2CDisplay"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay">[docs]</a><span class="k">class</span> <span class="nc">I2CDisplay</span><span class="p">(</span><span class="n">I2CDevice</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class represents an I²C enabled LCD display.</span>
+<span class="sd">    It implements the I2CDevice and adds functions for</span>
+<span class="sd">    printing text and toggling backlight. Displays with</span>
+<span class="sd">    up to four lines are supported.</span>
+
+<span class="sd">    :ivar int lines: The amount of lines on the display.</span>
+<span class="sd">    :ivar int line_length: The line length of the display.</span>
+<span class="sd">    :ivar bool backlight: The backlight status of the display, `True` means on, `False` means off. **Do not set this manually, use the functions for toggling backlight!**</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ENABLE</span> <span class="o">=</span> <span class="mb">0b00000100</span>
+    <span class="sd">&quot;&quot;&quot;The enable bit.&quot;&quot;&quot;</span>
+    <span class="n">READWRITE</span> <span class="o">=</span> <span class="mb">0b00000010</span>
+    <span class="sd">&quot;&quot;&quot;The read/write bit.&quot;&quot;&quot;</span>
+    <span class="n">REGISTER</span> <span class="o">=</span> <span class="mb">0b00000001</span>
+    <span class="sd">&quot;&quot;&quot;The register selection bit.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bus</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">line_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">I2CDevice</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">bus</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">=</span> <span class="n">lines</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line_length</span> <span class="o">=</span> <span class="n">line_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backlight</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+
+<div class="viewcode-block" id="I2CDisplay.setup"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.setup">[docs]</a>    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the display by putting it into</span>
+<span class="sd">        4-Bit mode, enabling backlight and clearing it.</span>
+<span class="sd">        The sleep at the end is necessary to make sure the</span>
+<span class="sd">        display fully initialized before doing anything else.</span>
+
+<span class="sd">        **You don&#39;t have to call this manually, this function will</span>
+<span class="sd">        automatically be called by the constructor.**</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x03</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x03</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x03</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x02</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x20</span> <span class="o">|</span> <span class="mh">0x08</span> <span class="o">|</span> <span class="mh">0x00</span> <span class="o">|</span> <span class="mh">0x00</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x08</span> <span class="o">|</span> <span class="mh">0x04</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x01</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x04</span> <span class="o">|</span> <span class="mh">0x02</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.strobe"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.strobe">[docs]</a>    <span class="k">def</span> <span class="nf">strobe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byte</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Strobes a byte to the display.</span>
+
+<span class="sd">        :param int byte: The byte to strobe.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backlight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">byte</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">ENABLE</span> <span class="o">|</span> <span class="mh">0x08</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">byte</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">ENABLE</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.0005</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backlight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">((</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">ENABLE</span><span class="p">)</span> <span class="o">|</span> <span class="mh">0x08</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="o">~</span><span class="bp">self</span><span class="o">.</span><span class="n">ENABLE</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.write4"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.write4">[docs]</a>    <span class="k">def</span> <span class="nf">write4</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byte</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a byte to the display in 4-Bit mode.</span>
+
+<span class="sd">        :param int byte: The byte to write.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="n">byte</span> <span class="o">|</span> <span class="mh">0x08</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">backlight</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strobe</span><span class="p">(</span><span class="n">byte</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.write"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">byte</span><span class="p">,</span> <span class="n">bit</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a byte and control bit to the display.</span>
+
+<span class="sd">        :param int byte: The byte to write.</span>
+<span class="sd">        :param int bit: The control bit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write4</span><span class="p">(</span><span class="n">bit</span> <span class="o">|</span> <span class="p">(</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="mh">0xF0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write4</span><span class="p">(</span><span class="n">bit</span> <span class="o">|</span> <span class="p">((</span><span class="n">byte</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xF0</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.clear"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clears the display.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x01</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.enable_backlight"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.enable_backlight">[docs]</a>    <span class="k">def</span> <span class="nf">enable_backlight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enables the display backlight.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="mh">0x08</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backlight</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.disable_backlight"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.disable_backlight">[docs]</a>    <span class="k">def</span> <span class="nf">disable_backlight</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Disables the display backlight.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="mh">0x00</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backlight</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.set_backlight"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.set_backlight">[docs]</a>    <span class="k">def</span> <span class="nf">set_backlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the display backlight to the desired</span>
+<span class="sd">        status, either on or off.</span>
+
+<span class="sd">        :param bool on: The desired backlight status, *True* means on, *False* means off.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">on</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">bool</span> <span class="ow">and</span> <span class="n">on</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">enable_backlight</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">on</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">bool</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">on</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disable_backlight</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.print"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.print">[docs]</a>    <span class="k">def</span> <span class="nf">print</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints a string to the given line. This</span>
+<span class="sd">        method will not clear the remaining space</span>
+<span class="sd">        on the line. </span>
+<span class="sd">        If *line* is greater than 4 or less than 1, </span>
+<span class="sd">        it will print to the first line.</span>
+
+<span class="sd">        :param str string: The string to print.</span>
+<span class="sd">        :param int line: The line to print to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0xC0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">line</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x94</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">line</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0xD4</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="mh">0x80</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">REGISTER</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.print_center"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.print_center">[docs]</a>    <span class="k">def</span> <span class="nf">print_center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints a string centered in the given</span>
+<span class="sd">        line. This function will, as it fills empty</span>
+<span class="sd">        spaces with a space, overwrite all previous</span>
+<span class="sd">        text on the line.</span>
+<span class="sd">        If *line* is greater than 4 or less than 1, </span>
+<span class="sd">        it will print to the first line.</span>
+
+<span class="sd">        :param str string: The string to print.</span>
+<span class="sd">        :param int line: The line to print to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line_length</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="I2CDisplay.print_clear"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.print_clear">[docs]</a>    <span class="k">def</span> <span class="nf">print_clear</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">line</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints a string to the given line,</span>
+<span class="sd">        filling all remaining space with spaces.</span>
+<span class="sd">        This way all previous text will be cleared.</span>
+
+<span class="sd">        :param str string: The string to print.</span>
+<span class="sd">        :param int line: The line to print to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line_length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Max Kreja.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

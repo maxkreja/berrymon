@@ -1,0 +1,166 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>State Module &#8212; Berrymon 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Sysinfo Module" href="berrymon.sysinfo.html" />
+    <link rel="prev" title="I²C Module" href="berrymon.i2c.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Berrymon</a></h1>
+
+
+
+<p class="blurb">A complete monitoring solution for your Raspberry Pi.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=maxkreja&repo=faynder_finder&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="software.html">Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardware.html">Hardware Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="berrymon.config.html">Config Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berrymon.i2c.html">I²C Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">State Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berrymon.sysinfo.html">Sysinfo Module</a></li>
+</ul>
+</li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-berrymon.state"></span><div class="section" id="state-module">
+<h1>State Module<a class="headerlink" href="#state-module" title="Permalink to this headline">¶</a></h1>
+<p>Contains definitions for managing the state and
+data of the Berrymon app.</p>
+<dl class="class">
+<dt id="berrymon.state.State">
+<em class="property">class </em><code class="descclassname">berrymon.state.</code><code class="descname">State</code><span class="sig-paren">(</span><em>config_path: str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/state.html#State"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.state.State" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>This class represents a sate object for the Berrymon application.
+The state describes the current data and has functions 
+to modify and update itself.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="berrymon.config.html#module-berrymon.config" title="berrymon.config"><strong>config</strong></a> (<a class="reference internal" href="berrymon.config.html#berrymon.config.Config" title="berrymon.config.Config"><em>Config</em></a>) – The current configuration.</li>
+<li><strong>username</strong> (<em>str</em>) – The current username.</li>
+<li><strong>load</strong> (<em>float</em>) – The current CPU load in percent.</li>
+<li><strong>temp</strong> (<em>float</em>) – The current CPU temperature in degree celsius.</li>
+<li><strong>ip</strong> (<em>str</em>) – The current IP address.</li>
+<li><strong>display</strong> (<a class="reference internal" href="berrymon.i2c.html#berrymon.i2c.I2CDisplay" title="berrymon.i2c.I2CDisplay"><em>I2CDisplay</em></a>) – A display that can be added to the state optionally.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="berrymon.state.State.add_display">
+<code class="descname">add_display</code><span class="sig-paren">(</span><em>display: berrymon.i2c.I2CDisplay</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/state.html#State.add_display"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.state.State.add_display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a display to the state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>display</strong> (<a class="reference internal" href="berrymon.i2c.html#berrymon.i2c.I2CDisplay" title="berrymon.i2c.I2CDisplay"><em>I2CDisplay</em></a>) – The display to add.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.state.State.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/state.html#State.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.state.State.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the state variables.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Max Kreja.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/berrymon.state.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

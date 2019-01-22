@@ -1,0 +1,4 @@
+Hardware Setup
+==============
+
+**WIP**

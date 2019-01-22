@@ -1,0 +1,451 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>I²C Module &#8212; Berrymon 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="State Module" href="berrymon.state.html" />
+    <link rel="prev" title="Config Module" href="berrymon.config.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Berrymon</a></h1>
+
+
+
+<p class="blurb">A complete monitoring solution for your Raspberry Pi.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=maxkreja&repo=faynder_finder&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="software.html">Software Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardware.html">Hardware Setup</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="berrymon.config.html">Config Module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">I²C Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berrymon.state.html">State Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="berrymon.sysinfo.html">Sysinfo Module</a></li>
+</ul>
+</li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-berrymon.i2c"></span><div class="section" id="i2c-module">
+<h1>I²C Module<a class="headerlink" href="#i2c-module" title="Permalink to this headline">¶</a></h1>
+<p>This module contains definitions for managing
+and controlling I²C devices.</p>
+<dl class="class">
+<dt id="berrymon.i2c.I2CDevice">
+<em class="property">class </em><code class="descclassname">berrymon.i2c.</code><code class="descname">I2CDevice</code><span class="sig-paren">(</span><em>addr: int</em>, <em>bus: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDevice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDevice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>This class represents an I²C device and implements it’s 
+bare-metal functions like reading and writing bytes from 
+and to the device.</p>
+<p>The sleep at the end of every write method is necessary
+because of the clock speed of 100kHz every standard I²C
+device uses. By sleeping 0.0001 seconds after each write
+we make sure that we are not sending two bytes in one
+clock cycle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>addr</strong> (<em>int</em>) – The address of the device on it’s bus.</li>
+<li><strong>bus</strong> (<em>int</em>) – The number of the bus the device is connected to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="berrymon.i2c.I2CDevice.read_block_register">
+<code class="descname">read_block_register</code><span class="sig-paren">(</span><em>register: int</em>, <em>length: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/berrymon/i2c.html#I2CDevice.read_block_register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDevice.read_block_register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a block of bytes from a specific register.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>register</strong> (<em>int</em>) – The address of the register to read from.</li>
+<li><strong>length</strong> (<em>int</em>) – The length of the block to read.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The read block of bytes.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDevice.read_byte">
+<code class="descname">read_byte</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/berrymon/i2c.html#I2CDevice.read_byte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDevice.read_byte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a single byte from the device.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The read byte.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDevice.read_byte_register">
+<code class="descname">read_byte_register</code><span class="sig-paren">(</span><em>register: int</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="_modules/berrymon/i2c.html#I2CDevice.read_byte_register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDevice.read_byte_register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads a single byte from a specific register.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>register</strong> (<em>int</em>) – The address of the register to read from.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The read byte.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDevice.write_block_register">
+<code class="descname">write_block_register</code><span class="sig-paren">(</span><em>register: int</em>, <em>block: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDevice.write_block_register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDevice.write_block_register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a block of bytes to a specific register.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>register</strong> (<em>int</em>) – The address of the register to write to.</li>
+<li><strong>block</strong> (<em>int</em>) – The block of bytes to write.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDevice.write_byte">
+<code class="descname">write_byte</code><span class="sig-paren">(</span><em>byte: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDevice.write_byte"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDevice.write_byte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a byte to the device.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>byte</strong> (<em>int</em>) – The byte to write.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDevice.write_byte_register">
+<code class="descname">write_byte_register</code><span class="sig-paren">(</span><em>register: int</em>, <em>byte: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDevice.write_byte_register"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDevice.write_byte_register" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a byte to a specific register.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>register</strong> (<em>int</em>) – The address of the register to write to.</li>
+<li><strong>byte</strong> (<em>int</em>) – The byte to write to the register.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="berrymon.i2c.I2CDisplay">
+<em class="property">class </em><code class="descclassname">berrymon.i2c.</code><code class="descname">I2CDisplay</code><span class="sig-paren">(</span><em>addr: int</em>, <em>bus: int</em>, <em>lines: int</em>, <em>line_length: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#berrymon.i2c.I2CDevice" title="berrymon.i2c.I2CDevice"><code class="xref py py-class docutils literal"><span class="pre">berrymon.i2c.I2CDevice</span></code></a></p>
+<p>This class represents an I²C enabled LCD display.
+It implements the I2CDevice and adds functions for
+printing text and toggling backlight. Displays with
+up to four lines are supported.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lines</strong> (<em>int</em>) – The amount of lines on the display.</li>
+<li><strong>line_length</strong> (<em>int</em>) – The line length of the display.</li>
+<li><strong>backlight</strong> (<em>bool</em>) – The backlight status of the display, <cite>True</cite> means on, <cite>False</cite> means off. <strong>Do not set this manually, use the functions for toggling backlight!</strong></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="berrymon.i2c.I2CDisplay.ENABLE">
+<code class="descname">ENABLE</code><em class="property"> = 4</em><a class="headerlink" href="#berrymon.i2c.I2CDisplay.ENABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The enable bit.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="berrymon.i2c.I2CDisplay.READWRITE">
+<code class="descname">READWRITE</code><em class="property"> = 2</em><a class="headerlink" href="#berrymon.i2c.I2CDisplay.READWRITE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The read/write bit.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="berrymon.i2c.I2CDisplay.REGISTER">
+<code class="descname">REGISTER</code><em class="property"> = 1</em><a class="headerlink" href="#berrymon.i2c.I2CDisplay.REGISTER" title="Permalink to this definition">¶</a></dt>
+<dd><p>The register selection bit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the display.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.disable_backlight">
+<code class="descname">disable_backlight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.disable_backlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.disable_backlight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disables the display backlight.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.enable_backlight">
+<code class="descname">enable_backlight</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.enable_backlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.enable_backlight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the display backlight.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.print">
+<code class="descname">print</code><span class="sig-paren">(</span><em>string: str</em>, <em>line: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.print" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints a string to the given line. This
+method will not clear the remaining space
+on the line. 
+If <em>line</em> is greater than 4 or less than 1, 
+it will print to the first line.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>string</strong> (<em>str</em>) – The string to print.</li>
+<li><strong>line</strong> (<em>int</em>) – The line to print to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.print_center">
+<code class="descname">print_center</code><span class="sig-paren">(</span><em>string: str</em>, <em>line: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.print_center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.print_center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints a string centered in the given
+line. This function will, as it fills empty
+spaces with a space, overwrite all previous
+text on the line.
+If <em>line</em> is greater than 4 or less than 1, 
+it will print to the first line.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>string</strong> (<em>str</em>) – The string to print.</li>
+<li><strong>line</strong> (<em>int</em>) – The line to print to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.print_clear">
+<code class="descname">print_clear</code><span class="sig-paren">(</span><em>string: str</em>, <em>line: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.print_clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.print_clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints a string to the given line,
+filling all remaining space with spaces.
+This way all previous text will be cleared.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>string</strong> (<em>str</em>) – The string to print.</li>
+<li><strong>line</strong> (<em>int</em>) – The line to print to.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.set_backlight">
+<code class="descname">set_backlight</code><span class="sig-paren">(</span><em>on: bool</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.set_backlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.set_backlight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the display backlight to the desired
+status, either on or off.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>on</strong> (<em>bool</em>) – The desired backlight status, <em>True</em> means on, <em>False</em> means off.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.setup">
+<code class="descname">setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the display by putting it into
+4-Bit mode, enabling backlight and clearing it.
+The sleep at the end is necessary to make sure the
+display fully initialized before doing anything else.</p>
+<p><strong>You don’t have to call this manually, this function will
+automatically be called by the constructor.</strong></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.strobe">
+<code class="descname">strobe</code><span class="sig-paren">(</span><em>byte: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.strobe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.strobe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strobes a byte to the display.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>byte</strong> (<em>int</em>) – The byte to strobe.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>byte</em>, <em>bit=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a byte and control bit to the display.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>byte</strong> (<em>int</em>) – The byte to write.</li>
+<li><strong>bit</strong> (<em>int</em>) – The control bit.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="berrymon.i2c.I2CDisplay.write4">
+<code class="descname">write4</code><span class="sig-paren">(</span><em>byte: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.write4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.write4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a byte to the display in 4-Bit mode.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>byte</strong> (<em>int</em>) – The byte to write.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Max Kreja.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/berrymon.i2c.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
