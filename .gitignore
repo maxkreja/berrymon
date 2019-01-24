@@ -10,8 +10,5 @@ __pycache__/
 instance/
 .webassets-cache
 
-# Sphinx
-sphinx
-
 # Visual Studio Code
 .vscode
