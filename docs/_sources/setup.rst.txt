@@ -7,7 +7,7 @@ an LCD display and make Berrymon use it. All required steps should be performed
 in the same order as they are described here. Of you don't want to use an LCD,
 skip the related steps.
 
-For this guide I assume that you are running one of the latest versions of the `Raspbian OS <https://www.raspberrypi.org/downloads/raspbian/>`_.
+The latest version of `Raspbian OS <https://www.raspberrypi.org/downloads/raspbian/>`_ is required for setting up Berrymon.
 
 1. :ref:`system-deps`
 2. :ref:`lcd-conn-setup`
