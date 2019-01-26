@@ -27,7 +27,7 @@ Python 3 is already installed, it wont change anything:
 .. code-block:: bash
     :caption: Install Python 3 using *apt*
 
-    sudo apt install python3
+    sudo apt install python3 python3-pip
 
 Berrymon needs some Python libraries, you can install them now or use the *requirements.txt*
 file described in :ref:`Installation`:
