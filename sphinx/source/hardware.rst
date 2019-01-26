@@ -1,4 +1,0 @@
-Hardware Setup
-==============
-
-**WIP**

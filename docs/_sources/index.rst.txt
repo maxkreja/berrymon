@@ -3,35 +3,30 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Berrymon's documentation!
+Berrymon - Raspberry Pi Monitoring
 ====================================
 
-.. toctree::
-   :caption: Contents:
+Welcome to the Berrymon Documentation. Berrymon is a monitoring backend
+solution for your `Raspberry Pi <https://www.raspberrypi.org/>`_. It's build
+around it's HTTP API that can be used to retrieve various informations like
+CPU load and temperature.
 
-   software
-   hardware
+Berrymon is complete with it's mobile app that brings all relevant data to your
+device. Berrymon is able to display some information on an LCD display connected to
+the Raspberry Pi.
+
+For information on the setup process, including how to connect an LCD display, check
+the :doc:`setup` chapter. The API documentation can be found under :doc:`api`. The documentation
+of Berrymons code can be found at :doc:`modules`.
+
+*Information on how to set up the Berrymon mobile app will be added later.*
+
+.. toctree::
+   :caption: All contents of this documentation:
+
+   setup
    api
    modules
-
-Berrymon is a complete monitoring solution for
-your Raspberry Pi. It's core feature is the HTTP
-API, which can be used to retrieve data like CPU
-temperature. The API is used by the `Berrymon App <http://www.google.com>`_.
-
-This Python package acts an API server an can control an LCD display
-connected to the Raspberry Pi if enabled in the configs. Information on
-how to use the Berrymon App, Server and an LCD display can be found in this
-documentation, just use the navigation below or the search function.
-
-**Berrymon can monitor the following data:**
-
-- Username
-- IP Address
-- CPU load
-- CPU temperature
-
-All of this data can be accessed directly via the API or with the Berrymon App.
 
 Indices and tables
 ==================

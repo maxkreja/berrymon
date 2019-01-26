@@ -1,0 +1,195 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Setup &#8212; Berrymon 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
+    <link rel="prev" title="Berrymon - Raspberry Pi Monitoring" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Berrymon</a></h1>
+
+
+
+<p class="blurb">A complete monitoring solution for your Raspberry Pi.</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=maxkreja&repo=berrymon&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">All contents of this documentation:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#system-dependencies">System &amp; Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lcd-connection-setup">LCD Connection &amp; Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#autostart">Autostart</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="setup">
+<h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
+<p>In order to use Berrymon, you will need to install some dependencies
+and make some configurations to your system. If you want to, you can connect
+an LCD display and make Berrymon use it. All required steps should be performed
+in the same order as they are described here. Of you don’t want to use an LCD,
+skip the related steps.</p>
+<p>For this guide I assume that you are running one of the latest versions of the <a class="reference external" href="https://www.raspberrypi.org/downloads/raspbian/">Raspbian OS</a>.</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#system-deps"><span class="std std-ref">System &amp; Dependencies</span></a></li>
+<li><a class="reference internal" href="#lcd-conn-setup"><span class="std std-ref">LCD Connection &amp; Setup</span></a></li>
+<li><a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a></li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#configuration"><span class="std std-ref">Configuration</span></a></dt>
+<dd>4.1 <a class="reference internal" href="#autostart"><span class="std std-ref">Autostart</span></a></dd>
+</dl>
+</li>
+</ol>
+<div class="section" id="system-dependencies">
+<span id="system-deps"></span><h2>System &amp; Dependencies<a class="headerlink" href="#system-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Berrymon is written in <a class="reference external" href="https://www.python.org">Python</a> and requires Python 3 to work. If you
+don’t have Python 3 installed or are not sure if you got it, run this commands to install. In case
+Python 3 is already installed, it wont change anything:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Install Python 3 using <em>apt</em></span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt install python3
+</pre></div>
+</div>
+</div>
+<p>Berrymon needs some Python libraries, you can install them now or use the <em>requirements.txt</em>
+file described in <a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a>:</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Install Python libraries using <em>pip</em></span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python3 -m pip install psutil smbus2 flask
+</pre></div>
+</div>
+</div>
+<p>When you are done with this, you can continue by setting up an LCD display or the installation
+of Berrymon if you don’t want to use one.</p>
+</div>
+<div class="section" id="lcd-connection-setup">
+<span id="lcd-conn-setup"></span><h2>LCD Connection &amp; Setup<a class="headerlink" href="#lcd-connection-setup" title="Permalink to this headline">¶</a></h2>
+<p><em>A guide on how to connect your display to the Raspberry Pi in terms of
+hardware will come in the near future, for now take a look at this</em> <a class="reference external" href="http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming">guide</a>.</p>
+<p><strong>If you use the guide above, you don’t need to install the python-smbus package. Just make note of the display
+address because you will need this later. Stop with the guide linked above when it comes to programming the LCD.
+Berrymon includes all the code to talk with the LCD.</strong></p>
+</div>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to install Berrymon ist to clone the <a class="reference external" href="https://github.com/maxkreja/berrymon">repository</a> from GitHub.
+Make sure that <a class="reference external" href="https://git-scm.com/">git</a> is installed on your system, then clone the repository with the following
+command.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Clone the latest version from GitHub</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/maxkreja/berrymon.git berrymon
+</pre></div>
+</div>
+</div>
+<p>The command above will download Berrymon into a new folder called ‘berrymon’ at your current directory. It’s recommended
+to download Berrymon to your home directory and this guide will assume you did that. If you didn’t, remember the location
+as you will need it later if you want to make Berrymon start automatically when your Raspberry Pi boots.</p>
+<p><strong>Skip the next step if you already installed the Python dependencies in</strong> <a class="reference internal" href="#system-deps"><span class="std std-ref">System &amp; Dependencies</span></a></p>
+<p>Now just install the Python dependencies by changing dirs and installing a <em>requirements.txt</em> file. Assuming you are in the directory
+where you downloaded Berrymon and you got a folder called <em>berrymon</em>, execute the following commands:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Install Python dependencies</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> berrymon
+python3 -m pip install -r requirements.txt
+</pre></div>
+</div>
+</div>
+<p>That’s all you have to do in order to install Berrymon. Now it’s time to configre and start it. Head on to the next section.</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="autostart">
+<h3>Autostart<a class="headerlink" href="#autostart" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2019, Max Kreja.
+      
+      |
+      <a href="_sources/setup.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -24,7 +24,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Modules" href="modules.html" />
-    <link rel="prev" title="Hardware Setup" href="hardware.html" />
+    <link rel="prev" title="Setup" href="setup.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -56,11 +56,14 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">All contents of this documentation:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="software.html">Software Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hardware.html">Hardware Setup</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setup.html">Setup</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#get-requets">GET Requets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#post-requests">POST requests</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
 </ul>
 
@@ -85,7 +88,85 @@
             
   <div class="section" id="api">
 <h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
-<p><strong>WIP</strong></p>
+<p>It’s HTTP API is the core feature of Berrymon. If you want
+to use it outside of the Berrymon mobile app, take at the look
+at it’s documentation.</p>
+<p>The API uses GET and POST requests in combination with JSON encoded
+data. The default HTTP codes are used for error handling.</p>
+<p><code class="code docutils literal"><span class="pre">&lt;host&gt;</span></code> and <code class="code docutils literal"><span class="pre">&lt;port&gt;</span></code> are system specific and up to your
+configuration. If a request was sent with the wrong method, a <em>405</em>
+will be returned. All display related requests will return <em>501</em>
+if the display is disabled by the config.</p>
+<div class="section" id="get-requets">
+<h2>GET Requets<a class="headerlink" href="#get-requets" title="Permalink to this headline">¶</a></h2>
+<p><code class="code docutils literal"><span class="pre">&lt;host&gt;:&lt;port&gt;/</span></code>:</p>
+<ul class="simple">
+<li>Base URL</li>
+<li>Use this to ping for up/down monitoring</li>
+<li><strong>Returns:</strong> <em>404</em></li>
+</ul>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><code class="code docutils literal"><span class="pre">&lt;host&gt;:&lt;port&gt;/api</span></code>:</p>
+<ul class="simple">
+<li>Base API URL</li>
+<li><strong>Returns:</strong> API version information:</li>
+</ul>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Berrymon API 1.0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;version&quot;</span><span class="p">:</span> <span class="s2">&quot;1.0&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><code class="code docutils literal"><span class="pre">&lt;host&gt;:&lt;port&gt;/api/backlight</span></code>:</p>
+<ul class="simple">
+<li>Get display backlight status</li>
+<li><strong>Returns:</strong> Backlight status or <em>501</em>:</li>
+</ul>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;backlight&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><code class="code docutils literal"><span class="pre">&lt;host&gt;:&lt;port&gt;/api/statistics</span></code>:</p>
+<ul class="simple">
+<li>Get system statistics</li>
+<li><strong>Returns:</strong> Statistics:</li>
+</ul>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;username&quot;</span><span class="p">:</span> <span class="s2">&quot;john&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;cpu_load&quot;</span><span class="p">:</span> <span class="mf">45.32</span><span class="p">,</span>
+    <span class="nt">&quot;cpu_temp&quot;</span><span class="p">:</span> <span class="mf">65.2</span><span class="p">,</span>
+    <span class="nt">&quot;ip&quot;</span><span class="p">:</span> <span class="s2">&quot;192.168.4.5&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="post-requests">
+<h2>POST requests<a class="headerlink" href="#post-requests" title="Permalink to this headline">¶</a></h2>
+<p><code class="code docutils literal"><span class="pre">&lt;host&gt;:&lt;port&gt;/api/backlight</span></code>:</p>
+<ul class="simple">
+<li>Set display backlight</li>
+<li><strong>POST Data:</strong> Desired backlight status (on = <em>true</em>, off = <em>false</em>):</li>
+</ul>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;backlight&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><strong>Returns:</strong> Backlight status or <em>501</em>:</li>
+</ul>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;backlight&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</div>
 </div>
 
 
@@ -96,11 +177,7 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018, Max Kreja.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      &copy;2019, Max Kreja.
       
       |
       <a href="_sources/api.rst.txt"

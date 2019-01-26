@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath('../../src'))
 # -- Project information -----------------------------------------------------
 
 project = 'Berrymon'
-copyright = '2018, Max Kreja'
+copyright = '2019, Max Kreja'
 author = 'Max Kreja'
 
 # The short X.Y version
@@ -96,7 +96,7 @@ html_theme_options = {
     "github_button": True,
     "github_repo": "berrymon",
     "description": "A complete monitoring solution for your Raspberry Pi.",
-    "page_width": "1100px"
+    "show_powered_by": False
 }
 
 html_sidebars = {
