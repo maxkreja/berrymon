@@ -4,7 +4,7 @@ Setup
 In order to use Berrymon, you will need to install some dependencies
 and make some configurations to your system. If you want to, you can connect
 an LCD display and make Berrymon use it. All required steps should be performed 
-in the same order as they are described here. Of you don't want to use an LCD,
+in the same order as they are described here. If you don't want to use an LCD,
 skip the related steps.
 
 The latest version of `Raspbian OS <https://www.raspberrypi.org/downloads/raspbian/>`_ is required for setting up Berrymon.
