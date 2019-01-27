@@ -62,7 +62,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#system-dependencies">System &amp; Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lcd-connection-setup">LCD Connection &amp; Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#launch">Launch</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#autostart">Autostart</a></li>
 </ul>
 </li>
@@ -163,12 +164,73 @@ python3 -m pip install -r requirements.txt
 </pre></div>
 </div>
 </div>
-<p>That’s all you have to do in order to install Berrymon. Now it’s time to configre and start it. Head on to the next section.</p>
+<p>That’s all you have to do in order to install Berrymon. Now it’s time to configure and start it. Head on to the next section.</p>
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>There are some changes you need to make to the configuration before you can finally launch Berrymon. There is a folder
+called src in the Berrymon root directory, in it you will find a file called ‘config.json’. This has to be edited to
+adjust Berrymon to your system configuration.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Default contents of the configuration file</span><a class="headerlink" href="#id5" title="Permalink to this code">¶</a></div>
+<div class="highlight-json"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;port&quot;</span><span class="p">:</span> <span class="mi">2374</span><span class="p">,</span>
+    <span class="nt">&quot;enable_lcd&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;lcd_addr&quot;</span><span class="p">:</span> <span class="s2">&quot;0x27&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lcd_bus&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;lcd_lines&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;lcd_line_length&quot;</span><span class="p">:</span> <span class="mi">16</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>The options and what they are doing are described in the following:</p>
+<p><em>All options regarding the LCD display are irrelevant until ‘enable_lcd’ is set to true.</em></p>
+<ul class="simple">
+<li><strong>host:</strong> The address for the API to listen on, set it to <em>0.0.0.0</em> to listen on all addresses</li>
+<li><strong>port:</strong> The port for the API to listen on, self explanatory</li>
+<li><strong>enable_lcd:</strong> Tells Berrymon if an LCD should be used or not, this must be set to false if no LCD is connected</li>
+<li><strong>lcd_addr:</strong> The address of the display, the section <a class="reference internal" href="#lcd-conn-setup"><span class="std std-ref">LCD Connection &amp; Setup</span></a> explains where to find the address (if the address of you display is just an integer like ‘27’, just ad ‘0x’ in front if it: ‘0x27’)</li>
+<li><strong>lcd_bus:</strong> Leave this on ‘1’ if you got only a single display connected, if you got multiple display controllers you have to adjust this</li>
+<li><strong>lcd_lines:</strong> The amount of lines the connected LCD display has</li>
+<li><strong>lcd_line_length:</strong> The amount of characters that fit on one line of your display</li>
+</ul>
+<p>This means that the default configuration from above would mean the following:</p>
+<ul class="simple">
+<li><code class="code docutils literal"><span class="pre">&quot;host&quot;:</span> <span class="pre">&quot;0.0.0.0&quot;</span></code>: listen on all addresses</li>
+<li><code class="code docutils literal"><span class="pre">&quot;port&quot;:</span> <span class="pre">2374</span></code>: listen on port 2374</li>
+<li><code class="code docutils literal"><span class="pre">&quot;enable_lcd&quot;:</span> <span class="pre">true</span></code>: enable the LCD display</li>
+<li><code class="code docutils literal"><span class="pre">&quot;lcd_addr&quot;:</span> <span class="pre">&quot;0x27&quot;</span></code>: according to <a class="reference internal" href="#lcd-conn-setup"><span class="std std-ref">LCD Connection &amp; Setup</span></a> the address of the display is ‘27’</li>
+<li><code class="code docutils literal"><span class="pre">&quot;lcd_bus&quot;:</span> <span class="pre">1</span></code>: the bus number is ‘1’, we only got one controller connected</li>
+<li><code class="code docutils literal"><span class="pre">&quot;lcd_lines&quot;:</span> <span class="pre">2</span></code>: our display has two lines</li>
+<li><code class="code docutils literal"><span class="pre">&quot;lcd_line_length&quot;:</span> <span class="pre">16</span></code>: there are 16 characters on each line of our display</li>
+</ul>
+</div>
+<div class="section" id="launch">
+<h2>Launch<a class="headerlink" href="#launch" title="Permalink to this headline">¶</a></h2>
+<p>To start Berrymon you need to be in the root directory of Berrymon. You should see a file tree like this:</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">Berrymon root directory</span><a class="headerlink" href="#id6" title="Permalink to this code">¶</a></div>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>┌ docs
+├ sphinx
+├ src
+├ .gitignore
+├ LICENSE.md
+├ README.md
+└ requirements.txt
+</pre></div>
+</div>
+</div>
+<p>Navigate to the ‘src’ directory <code class="code docutils literal"><span class="pre">cd</span> <span class="pre">src</span></code>. To start Berrymon type this command: <code class="code docutils literal"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">berrymon</span></code>.
+That’s all it takes to start Berrymon manually. The API should now be running and listening on the address and port
+you specified in the config file, if you connected and enabled an LCD display, this should turn on and display
+some information.</p>
+<p><em>Note:</em> If you want to save some storage space you can delete the ‘sphinx’ folder. If you don’t need the documentation
+on your disc you can delete the ‘docs’ folder too.</p>
 <div class="section" id="autostart">
 <h3>Autostart<a class="headerlink" href="#autostart" title="Permalink to this headline">¶</a></h3>
+<p><em>Coming soon</em></p>
 </div>
 </div>
 </div>

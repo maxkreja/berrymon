@@ -79,10 +79,75 @@ where you downloaded Berrymon and you got a folder called *berrymon*, execute th
     cd berrymon
     python3 -m pip install -r requirements.txt
 
-That's all you have to do in order to install Berrymon. Now it's time to configre and start it. Head on to the next section.
+That's all you have to do in order to install Berrymon. Now it's time to configure and start it. Head on to the next section.
 
 Configuration
 -------------
 
+There are some changes you need to make to the configuration before you can finally launch Berrymon. There is a folder
+called src in the Berrymon root directory, in it you will find a file called 'config.json'. This has to be edited to
+adjust Berrymon to your system configuration.
+
+.. code-block:: json
+    :caption: Default contents of the configuration file
+
+    {
+        "host": "0.0.0.0",
+        "port": 2374,
+        "enable_lcd": true,
+        "lcd_addr": "0x27",
+        "lcd_bus": 1,
+        "lcd_lines": 2,
+        "lcd_line_length": 16
+    }
+
+The options and what they are doing are described in the following:
+
+*All options regarding the LCD display are irrelevant until 'enable_lcd' is set to true.*
+
+- **host:** The address for the API to listen on, set it to *0.0.0.0* to listen on all addresses
+- **port:** The port for the API to listen on, self explanatory
+- **enable_lcd:** Tells Berrymon if an LCD should be used or not, this must be set to false if no LCD is connected
+- **lcd_addr:** The address of the display, the section :ref:`lcd-conn-setup` explains where to find the address (if the address of you display is just an integer like '27', just ad '0x' in front if it: '0x27')
+- **lcd_bus:** Leave this on '1' if you got only a single display connected, if you got multiple display controllers you have to adjust this
+- **lcd_lines:** The amount of lines the connected LCD display has
+- **lcd_line_length:** The amount of characters that fit on one line of your display
+
+This means that the default configuration from above would mean the following:
+
+- :code:`"host": "0.0.0.0"`: listen on all addresses
+- :code:`"port": 2374`: listen on port 2374
+- :code:`"enable_lcd": true`: enable the LCD display
+- :code:`"lcd_addr": "0x27"`: according to :ref:`lcd-conn-setup` the address of the display is '27'
+- :code:`"lcd_bus": 1`: the bus number is '1', we only got one controller connected
+- :code:`"lcd_lines": 2`: our display has two lines
+- :code:`"lcd_line_length": 16`: there are 16 characters on each line of our display
+
+Launch
+------
+
+To start Berrymon you need to be in the root directory of Berrymon. You should see a file tree like this:
+
+.. code-block:: bash
+    :caption: Berrymon root directory
+
+    ┌ docs
+    ├ sphinx
+    ├ src
+    ├ .gitignore
+    ├ LICENSE.md
+    ├ README.md
+    └ requirements.txt
+
+Navigate to the 'src' directory :code:`cd src`. To start Berrymon type this command: :code:`python3 -m berrymon`.
+That's all it takes to start Berrymon manually. The API should now be running and listening on the address and port
+you specified in the config file, if you connected and enabled an LCD display, this should turn on and display
+some information.
+
+*Note:* If you want to save some storage space you can delete the 'sphinx' folder. If you don't need the documentation
+on your disc you can delete the 'docs' folder too.
+
 Autostart
 ~~~~~~~~~
+
+*Coming soon*
