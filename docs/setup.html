@@ -112,16 +112,16 @@ skip the related steps.</p>
 </ol>
 <div class="section" id="system-dependencies">
 <span id="system-deps"></span><h2>System &amp; Dependencies<a class="headerlink" href="#system-dependencies" title="Permalink to this headline">¶</a></h2>
-<p>Berrymon is written in <a class="reference external" href="https://www.python.org">Python</a> and requires Python 3 to work. If you
-don’t have Python 3 installed or are not sure if you got it, run this commands to install. In case
-Python 3 is already installed, it wont change anything:</p>
+<p>Berrymon is written in Python, hence it requires <a class="reference external" href="https://www.python.org">Python</a> to work. If you
+haven’t installed Python 3 yet, run these commands to install it. In case Python 3 is already installed, it
+won’t change anything:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">Install Python 3 using <em>apt</em></span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>sudo apt install python3 python3-pip
 </pre></div>
 </div>
 </div>
-<p>Berrymon needs some Python libraries, you can install them now or use the <em>requirements.txt</em>
+<p>Berrymon needs some Python libraries to work, you can install them right now or use the <em>requirements.txt</em>
 file described in <a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a>:</p>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">Install Python libraries using <em>pip</em></span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
@@ -129,34 +129,34 @@ file described in <a class="reference internal" href="#installation"><span class
 </pre></div>
 </div>
 </div>
-<p>When you are done with this, you can continue by setting up an LCD display or the installation
-of Berrymon if you don’t want to use one.</p>
+<p>As you’re done with setting up Python, you either can continue by setting up the LCD display
+or with the installation of Berrymon in case you don’t want to use one.</p>
 </div>
 <div class="section" id="lcd-connection-setup">
 <span id="lcd-conn-setup"></span><h2>LCD Connection &amp; Setup<a class="headerlink" href="#lcd-connection-setup" title="Permalink to this headline">¶</a></h2>
-<p><em>A guide on how to connect your display to the Raspberry Pi in terms of
-hardware will come in the near future, for now take a look at this</em> <a class="reference external" href="http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming">guide</a>.</p>
-<p><strong>If you use the guide above, you don’t need to install the python-smbus package. Just make note of the display
-address because you will need this later. Stop with the guide linked above when it comes to programming the LCD.
-Berrymon includes all the code to talk with the LCD.</strong></p>
+<p><em>A guide on how to connect your display to the Raspberry Pi in terms of hardware will come in the near future,
+for now please refer to this</em> <a class="reference external" href="http://www.circuitbasics.com/raspberry-pi-i2c-lcd-set-up-and-programming">guide</a> <em>.</em></p>
+<p><strong>If you are using the guide above, there is no need to install the python-smbus package, but do take note of the
+display address because you will need it later. Berrymon includes all the code to communicate with the LCD, so you can
+stop reading the guide above when it comes to programming the LCD.</strong></p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>The easiest way to install Berrymon ist to clone the <a class="reference external" href="https://github.com/maxkreja/berrymon">repository</a> from GitHub.
-Make sure that <a class="reference external" href="https://git-scm.com/">git</a> is installed on your system, then clone the repository with the following
-command.</p>
+<p>The easiest way to install Berrymon is to clone the <a class="reference external" href="https://github.com/maxkreja/berrymon">repository</a> from GitHub.
+Make sure that <a class="reference external" href="https://git-scm.com/">git</a> is installed on your system, then clone the repository with the following command.</p>
 <div class="literal-block-wrapper docutils container" id="id3">
 <div class="code-block-caption"><span class="caption-text">Clone the latest version from GitHub</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
 <div class="highlight-bash"><div class="highlight"><pre><span></span>git clone https://github.com/maxkreja/berrymon.git berrymon
 </pre></div>
 </div>
 </div>
-<p>The command above will download Berrymon into a new folder called ‘berrymon’ at your current directory. It’s recommended
-to download Berrymon to your home directory and this guide will assume you did that. If you didn’t, remember the location
-as you will need it later if you want to make Berrymon start automatically when your Raspberry Pi boots.</p>
+<p>Executing the command above, a new folder called ‘berrymon’ will be created into your current directory and Berrymon
+will be downloaded into it. It’s recommended to download Berrymon to your home directory, so this guide always refers
+to the files in it. If you didn’t, keep your chosen directory in mind, since you will need it later if you want to make
+Berrymon start automatically as your Pi boots.</p>
 <p><strong>Skip the next step if you already installed the Python dependencies in</strong> <a class="reference internal" href="#system-deps"><span class="std std-ref">System &amp; Dependencies</span></a></p>
-<p>Now just install the Python dependencies by changing dirs and installing a <em>requirements.txt</em> file. Assuming you are in the directory
-where you downloaded Berrymon and you got a folder called <em>berrymon</em>, execute the following commands:</p>
+<p>Now just install the Python dependencies by changing the directories and installing a ‘requirements.txt’ file. Assuming you are
+in the directory where you downloaded Berrymon and you got a folder called ‘berrymon’, execute the following commands:</p>
 <div class="literal-block-wrapper docutils container" id="id4">
 <div class="code-block-caption"><span class="caption-text">Install Python dependencies</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
 <div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nb">cd</span> berrymon
@@ -164,7 +164,8 @@ python3 -m pip install -r requirements.txt
 </pre></div>
 </div>
 </div>
-<p>That’s all you have to do in order to install Berrymon. Now it’s time to configure and start it. Head on to the next section.</p>
+<p>That’s all you have to do in order to install Berrymon!</p>
+<p>Now it’s time to configure Berrymon and get it up and running. Head on to the next section.</p>
 </div>
 <div class="section" id="configuration">
 <h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>

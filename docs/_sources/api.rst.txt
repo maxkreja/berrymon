@@ -1,17 +1,16 @@
 API
 ===
 
-It's HTTP API is the core feature of Berrymon. If you want
-to use it outside of the Berrymon mobile app, take at the look
-at it's documentation.
+Berrymons HTTP API is its core feature. If you want to use it outside 
+of the Berrymon mobile app, take at the look at it’s documentation.
 
-The API uses GET and POST requests in combination with JSON encoded
-data. The default HTTP codes are used for error handling.
+The API uses GET and POST requests in combination with JSON encoded data. 
+The default HTTP codes are used for error handling.
 
-:code:`<host>` and :code:`<port>` are system specific and up to your
-configuration. If a request was sent with the wrong method, a *405*
-will be returned. All display related requests will return *501*
-if the display is disabled by the config.
+:code:`<host>` and :code:`<port>` are system specific and depend on your 
+configuration. If a request was sent with the wrong method, *405* will be returned. 
+All display related requests will return *501* if the display is disabled by the config.
+
 
 GET Requets
 -----------

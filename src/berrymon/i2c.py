@@ -16,11 +16,10 @@ class I2CDevice:
     bare-metal functions like reading and writing bytes from 
     and to the device.
 
-    The sleep at the end of every write method is necessary
-    because of the clock speed of 100kHz every standard I²C
-    device uses. By sleeping 0.0001 seconds after each write
-    we make sure that we are not sending two bytes in one
-    clock cycle.
+    The sleep at the end of every writing sequence method is necessary 
+    because of the clock speed of every standard I²C device, 100kHz. By making the Pi 
+    sleep for 0.0001 seconds after each writing sequence we make sure that we 
+    are not sending two bytes in one clock cycle.
 
     :ivar int addr: The address of the device on it's bus.
     :ivar int bus: The number of the bus the device is connected to.
@@ -107,7 +106,7 @@ class I2CDisplay(I2CDevice):
 
     :ivar int lines: The amount of lines on the display.
     :ivar int line_length: The line length of the display.
-    :ivar bool backlight: The backlight status of the display, `True` means on, `False` means off. **Do not set this manually, use the functions for toggling backlight!**
+    :ivar bool backlight: The backlight status of the display, *True* equals on, *False* equals off. **Do not set this manually, use the functions for toggling backlight!**
     """
 
     ENABLE = 0b00000100
@@ -126,10 +125,10 @@ class I2CDisplay(I2CDevice):
 
     def setup(self):
         """
-        Initializes the display by putting it into
-        4-Bit mode, enabling backlight and clearing it.
-        The sleep at the end is necessary to make sure the
-        display fully initialized before doing anything else.
+        Initializes the display by putting it into 4-Bit mode, 
+        enabling backlight and clearing it. The sleep at the end 
+        is necessary to make sure the display is fully initialized 
+        before executing any other order.
 
         **You don't have to call this manually, this function will
         automatically be called by the constructor.**

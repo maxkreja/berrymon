@@ -99,11 +99,10 @@ and controlling I²C devices.</p>
 <p>This class represents an I²C device and implements it’s 
 bare-metal functions like reading and writing bytes from 
 and to the device.</p>
-<p>The sleep at the end of every write method is necessary
-because of the clock speed of 100kHz every standard I²C
-device uses. By sleeping 0.0001 seconds after each write
-we make sure that we are not sending two bytes in one
-clock cycle.</p>
+<p>The sleep at the end of every writing sequence method is necessary 
+because of the clock speed of every standard I²C device, 100kHz. By making the Pi 
+sleep for 0.0001 seconds after each writing sequence we make sure that we 
+are not sending two bytes in one clock cycle.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -241,7 +240,7 @@ up to four lines are supported.</p>
 <tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
 <li><strong>lines</strong> (<em>int</em>) – The amount of lines on the display.</li>
 <li><strong>line_length</strong> (<em>int</em>) – The line length of the display.</li>
-<li><strong>backlight</strong> (<em>bool</em>) – The backlight status of the display, <cite>True</cite> means on, <cite>False</cite> means off. <strong>Do not set this manually, use the functions for toggling backlight!</strong></li>
+<li><strong>backlight</strong> (<em>bool</em>) – The backlight status of the display, <em>True</em> equals on, <em>False</em> equals off. <strong>Do not set this manually, use the functions for toggling backlight!</strong></li>
 </ul>
 </td>
 </tr>
@@ -366,10 +365,10 @@ status, either on or off.</p>
 <dl class="method">
 <dt id="berrymon.i2c.I2CDisplay.setup">
 <code class="descname">setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/berrymon/i2c.html#I2CDisplay.setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#berrymon.i2c.I2CDisplay.setup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initializes the display by putting it into
-4-Bit mode, enabling backlight and clearing it.
-The sleep at the end is necessary to make sure the
-display fully initialized before doing anything else.</p>
+<dd><p>Initializes the display by putting it into 4-Bit mode, 
+enabling backlight and clearing it. The sleep at the end 
+is necessary to make sure the display is fully initialized 
+before executing any other order.</p>
 <p><strong>You don’t have to call this manually, this function will
 automatically be called by the constructor.</strong></p>
 </dd></dl>

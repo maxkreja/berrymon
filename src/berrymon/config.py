@@ -11,10 +11,9 @@ import json
 
 class Config:
     """
-    This class represents a configuration for Berrymon
-    with information like the API host address or the
-    address of an LCD display that should be used by 
-    Berrymon.
+    This class represents a configuration for Berrymon with 
+    information like the API host address or the address of 
+    an LCD display that’s meant to be used by Berrymon.
 
     :ivar str host: The API host address.
     :ivar int port: The API port.

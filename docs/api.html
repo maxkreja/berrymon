@@ -88,15 +88,13 @@
             
   <div class="section" id="api">
 <h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
-<p>It’s HTTP API is the core feature of Berrymon. If you want
-to use it outside of the Berrymon mobile app, take at the look
-at it’s documentation.</p>
-<p>The API uses GET and POST requests in combination with JSON encoded
-data. The default HTTP codes are used for error handling.</p>
-<p><code class="code docutils literal"><span class="pre">&lt;host&gt;</span></code> and <code class="code docutils literal"><span class="pre">&lt;port&gt;</span></code> are system specific and up to your
-configuration. If a request was sent with the wrong method, a <em>405</em>
-will be returned. All display related requests will return <em>501</em>
-if the display is disabled by the config.</p>
+<p>Berrymons HTTP API is its core feature. If you want to use it outside
+of the Berrymon mobile app, take at the look at it’s documentation.</p>
+<p>The API uses GET and POST requests in combination with JSON encoded data.
+The default HTTP codes are used for error handling.</p>
+<p><code class="code docutils literal"><span class="pre">&lt;host&gt;</span></code> and <code class="code docutils literal"><span class="pre">&lt;port&gt;</span></code> are system specific and depend on your
+configuration. If a request was sent with the wrong method, <em>405</em> will be returned.
+All display related requests will return <em>501</em> if the display is disabled by the config.</p>
 <div class="section" id="get-requets">
 <h2>GET Requets<a class="headerlink" href="#get-requets" title="Permalink to this headline">¶</a></h2>
 <p><code class="code docutils literal"><span class="pre">&lt;host&gt;:&lt;port&gt;/</span></code>:</p>

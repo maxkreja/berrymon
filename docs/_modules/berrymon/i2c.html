@@ -99,11 +99,10 @@
 <span class="sd">    bare-metal functions like reading and writing bytes from </span>
 <span class="sd">    and to the device.</span>
 
-<span class="sd">    The sleep at the end of every write method is necessary</span>
-<span class="sd">    because of the clock speed of 100kHz every standard I²C</span>
-<span class="sd">    device uses. By sleeping 0.0001 seconds after each write</span>
-<span class="sd">    we make sure that we are not sending two bytes in one</span>
-<span class="sd">    clock cycle.</span>
+<span class="sd">    The sleep at the end of every writing sequence method is necessary </span>
+<span class="sd">    because of the clock speed of every standard I²C device, 100kHz. By making the Pi </span>
+<span class="sd">    sleep for 0.0001 seconds after each writing sequence we make sure that we </span>
+<span class="sd">    are not sending two bytes in one clock cycle.</span>
 
 <span class="sd">    :ivar int addr: The address of the device on it&#39;s bus.</span>
 <span class="sd">    :ivar int bus: The number of the bus the device is connected to.</span>
@@ -190,7 +189,7 @@
 
 <span class="sd">    :ivar int lines: The amount of lines on the display.</span>
 <span class="sd">    :ivar int line_length: The line length of the display.</span>
-<span class="sd">    :ivar bool backlight: The backlight status of the display, `True` means on, `False` means off. **Do not set this manually, use the functions for toggling backlight!**</span>
+<span class="sd">    :ivar bool backlight: The backlight status of the display, *True* equals on, *False* equals off. **Do not set this manually, use the functions for toggling backlight!**</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">ENABLE</span> <span class="o">=</span> <span class="mb">0b00000100</span>
@@ -209,10 +208,10 @@
 
 <div class="viewcode-block" id="I2CDisplay.setup"><a class="viewcode-back" href="../../berrymon.i2c.html#berrymon.i2c.I2CDisplay.setup">[docs]</a>    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the display by putting it into</span>
-<span class="sd">        4-Bit mode, enabling backlight and clearing it.</span>
-<span class="sd">        The sleep at the end is necessary to make sure the</span>
-<span class="sd">        display fully initialized before doing anything else.</span>
+<span class="sd">        Initializes the display by putting it into 4-Bit mode, </span>
+<span class="sd">        enabling backlight and clearing it. The sleep at the end </span>
+<span class="sd">        is necessary to make sure the display is fully initialized </span>
+<span class="sd">        before executing any other order.</span>
 
 <span class="sd">        **You don&#39;t have to call this manually, this function will</span>
 <span class="sd">        automatically be called by the constructor.**</span>
