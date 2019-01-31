@@ -152,4 +152,32 @@ on your disc you can delete the 'docs' folder too.
 Autostart
 ~~~~~~~~~
 
-*Coming soon*
+If you want to make Berrymon start when your system boots, you need to place a script with the following contents
+in your home directory:
+
+.. code-block:: bash
+    :caption: Autostart script
+
+    #!/bin/bash
+
+    TARGET="/home/[user]/berrymon/src"
+    export PYTHONPATH="$PYTHONPATH:$TARGET"
+
+    cd $TARGET
+    python3 -m berrymon
+
+Just place a new file in your home directory with the command :code:`touch berrymon.sh`, paste the contents above
+and replace :code:`[user]` with the actual username (should be 'pi' by default). If you didn't download
+Berrymon to you home directory as described in :ref:`Installation`, you have to adjust the :code:`TARGET` variable
+accordingly.
+
+Now we need to create a cronjob that executes this script at boot, to do this run :code:`crontab -e`, if you are asked to
+select an editor, select nano. At the end of the file insert a new line and add the
+following code, replacing :code:`[user]` with the actual username:
+
+.. code-block:: bash
+    :caption: Add a cronjob to start Berrymon
+
+    @reboot /home/[user]/berrymon.sh
+
+Save the file and exit. Berrymon should start with each system boot from now on.

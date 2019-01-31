@@ -13,7 +13,6 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 
-import guzzle_sphinx_theme
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../src'))
@@ -78,7 +77,6 @@ pygments_style = None
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme_path = guzzle_sphinx_theme.html_theme_path()
 html_theme = 'alabaster'
 
 # extensions.append("guzzle_sphinx_theme")
