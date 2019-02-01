@@ -204,7 +204,7 @@ adjust Berrymon to your system configuration.</p>
 </div>
 <div class="section" id="launch">
 <h2>Launch<a class="headerlink" href="#launch" title="Permalink to this headline">¶</a></h2>
-<p>To start Berrymon you need to be in the root directory of Berrymon. You should see a file tree like this:</p>
+<p>To start Berrymon you need to be in the previously defined root directory. You should see a file tree like this:</p>
 <div class="literal-block-wrapper docutils container" id="id6">
 <div class="code-block-caption"><span class="caption-text">Berrymon root directory</span><a class="headerlink" href="#id6" title="Permalink to this code">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>┌ docs
@@ -217,16 +217,15 @@ adjust Berrymon to your system configuration.</p>
 </pre></div>
 </div>
 </div>
-<p>Navigate to the ‘src’ directory <code class="code docutils literal notranslate"><span class="pre">cd</span> <span class="pre">src</span></code>. To start Berrymon type this command: <code class="code docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">berrymon</span></code>.
-That’s all it takes to start Berrymon manually. The API should now be running and listening on the address and port
-you specified in the config file, if you connected and enabled an LCD display, this should turn on and display
+<p>Navigate to the ‘src’ directory <code class="code docutils literal notranslate"><span class="pre">cd</span> <span class="pre">src</span></code>. By executing this command, Berrymon will start: <code class="code docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">berrymon</span></code>.
+That’s all it takes to start Berrymon manually. The API should now be listening on the address and port
+you specified in the config file, if you connected and enabled the LCD display, it should turn on and display
 some information.</p>
 <p><em>Note:</em> If you want to save some storage space you can delete the ‘sphinx’ folder. If you don’t need the documentation
 on your disc you can delete the ‘docs’ folder too.</p>
 <div class="section" id="autostart">
 <h3>Autostart<a class="headerlink" href="#autostart" title="Permalink to this headline">¶</a></h3>
-<p>If you want to make Berrymon start when your system boots, you need to place a script with the following contents
-in your home directory:</p>
+<p>If you want to make Berrymon start at system boot, you need to place a script with the following content in your home directory:</p>
 <div class="literal-block-wrapper docutils container" id="id7">
 <div class="code-block-caption"><span class="caption-text">Autostart script</span><a class="headerlink" href="#id7" title="Permalink to this code">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
@@ -239,13 +238,15 @@ python3 -m berrymon
 </pre></div>
 </div>
 </div>
-<p>Just place a new file in your home directory with the command <code class="code docutils literal notranslate"><span class="pre">touch</span> <span class="pre">berrymon.sh</span></code>, paste the contents above
-and replace <code class="code docutils literal notranslate"><span class="pre">[user]</span></code> with the actual username (should be ‘pi’ by default). If you didn’t download
-Berrymon to you home directory as described in <a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a>, you have to adjust the <code class="code docutils literal notranslate"><span class="pre">TARGET</span></code> variable
-accordingly.</p>
+<p>Just place a new file in your home directory with the command <code class="code docutils literal notranslate"><span class="pre">touch</span> <span class="pre">berrymon.sh</span></code>, paste in the content above and
+replace <code class="code docutils literal notranslate"><span class="pre">[user]</span></code> with the actual username (should be ‘pi’ by default). If you didn’t download Berrymon to you home
+directory as described in <a class="reference internal" href="#installation"><span class="std std-ref">Installation</span></a>, you have to adjust the <code class="code docutils literal notranslate"><span class="pre">TARGET</span></code> variable accordingly.</p>
 <p>Now we need to create a cronjob that executes this script at boot, to do this run <code class="code docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-e</span></code>, if you are asked to
 select an editor, select nano. At the end of the file insert a new line and add the
 following code, replacing <code class="code docutils literal notranslate"><span class="pre">[user]</span></code> with the actual username:</p>
+<p>Now we have to create a cronjob that executes this script at boot, to do this run <code class="code docutils literal notranslate"><span class="pre">crontab</span> <span class="pre">-e</span></code>, if you are asked to
+select an editor, select nano. At the end of the file, insert a new line and add the following code,
+replacing <code class="code docutils literal notranslate"><span class="pre">[user]</span></code> with the actual username:</p>
 <div class="literal-block-wrapper docutils container" id="id8">
 <div class="code-block-caption"><span class="caption-text">Add a cronjob to start Berrymon</span><a class="headerlink" href="#id8" title="Permalink to this code">¶</a></div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>@reboot /home/<span class="o">[</span>user<span class="o">]</span>/berrymon.sh

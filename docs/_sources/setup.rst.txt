@@ -128,7 +128,7 @@ This means that the default configuration from above would mean the following:
 Launch
 ------
 
-To start Berrymon you need to be in the root directory of Berrymon. You should see a file tree like this:
+To start Berrymon you need to be in the previously defined root directory. You should see a file tree like this:
 
 .. code-block:: bash
     :caption: Berrymon root directory
@@ -141,9 +141,9 @@ To start Berrymon you need to be in the root directory of Berrymon. You should s
     ├ README.md
     └ requirements.txt
 
-Navigate to the 'src' directory :code:`cd src`. To start Berrymon type this command: :code:`python3 -m berrymon`.
-That's all it takes to start Berrymon manually. The API should now be running and listening on the address and port
-you specified in the config file, if you connected and enabled an LCD display, this should turn on and display
+Navigate to the ‘src’ directory :code:`cd src`. By executing this command, Berrymon will start: :code:`python3 -m berrymon`. 
+That’s all it takes to start Berrymon manually. The API should now be listening on the address and port 
+you specified in the config file, if you connected and enabled the LCD display, it should turn on and display 
 some information.
 
 *Note:* If you want to save some storage space you can delete the 'sphinx' folder. If you don't need the documentation
@@ -152,8 +152,7 @@ on your disc you can delete the 'docs' folder too.
 Autostart
 ~~~~~~~~~
 
-If you want to make Berrymon start when your system boots, you need to place a script with the following contents
-in your home directory:
+If you want to make Berrymon start at system boot, you need to place a script with the following content in your home directory:
 
 .. code-block:: bash
     :caption: Autostart script
@@ -166,14 +165,17 @@ in your home directory:
     cd $TARGET
     python3 -m berrymon
 
-Just place a new file in your home directory with the command :code:`touch berrymon.sh`, paste the contents above
-and replace :code:`[user]` with the actual username (should be 'pi' by default). If you didn't download
-Berrymon to you home directory as described in :ref:`Installation`, you have to adjust the :code:`TARGET` variable
-accordingly.
+Just place a new file in your home directory with the command :code:`touch berrymon.sh`, paste in the content above and 
+replace :code:`[user]` with the actual username (should be ‘pi’ by default). If you didn’t download Berrymon to you home 
+directory as described in :ref:`Installation`, you have to adjust the :code:`TARGET` variable accordingly.
 
 Now we need to create a cronjob that executes this script at boot, to do this run :code:`crontab -e`, if you are asked to
 select an editor, select nano. At the end of the file insert a new line and add the
 following code, replacing :code:`[user]` with the actual username:
+
+Now we have to create a cronjob that executes this script at boot, to do this run :code:`crontab -e`, if you are asked to 
+select an editor, select nano. At the end of the file, insert a new line and add the following code, 
+replacing :code:`[user]` with the actual username:
 
 .. code-block:: bash
     :caption: Add a cronjob to start Berrymon
