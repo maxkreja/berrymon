@@ -11,7 +11,7 @@ solution for your `Raspberry Pi <https://www.raspberrypi.org/>`_. It's build
 around it's HTTP API that can be used to retrieve various informations like
 CPU load and temperature.
 
-Berrymon is complete with it's mobile app that brings all relevant data to your
+Berrymon is complete with it's `mobile app <https://github.com/maxkreja/berrymon_app>`_ that brings all relevant data to your
 device. Berrymon is able to display some information on an LCD display connected to
 the Raspberry Pi.
 
